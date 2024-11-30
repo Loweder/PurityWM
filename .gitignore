@@ -1,0 +1,5 @@
+Session.*
+*.o
+compile_commands.json
+boot
+puritywm
