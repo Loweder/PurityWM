@@ -379,11 +379,15 @@ int motion_handler(xcb_motion_notify_event_t *ev) {
 	return 0;
 }
 int map_request_handler(xcb_map_request_event_t *ev) {
+	LOGF("Got map: window '%x'", ev->window);
 	xcb_get_window_attributes_cookie_t wa_cookie = xcb_get_window_attributes_unchecked(k->c, ev->window);
 	xcb_get_window_attributes_reply_t *wa = xcb_get_window_attributes_reply(k->c, wa_cookie, 0);
 	if (!wa || !wa->override_redirect) {
+		LOG("Seems to be normal");
 		manage_client(ev->window);
 		xcb_flush(k->c);
+	} else {
+		LOG("Seems to be no-redirect");
 	}
 	free(wa);
 	return 0;
